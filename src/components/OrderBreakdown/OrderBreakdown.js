@@ -32,6 +32,7 @@ import LineItemTotalPrice from './LineItemTotalPrice';
 import LineItemUnknownItemsMaybe from './LineItemUnknownItemsMaybe';
 
 import css from './OrderBreakdown.module.css';
+import { NO_FEE } from '../../util/validators';
 
 export const OrderBreakdownComponent = props => {
   const {
@@ -61,7 +62,8 @@ export const OrderBreakdownComponent = props => {
     : DATE_TYPE_DATE;
 
   const hasCommissionLineItem = lineItems.find(item => {
-    const hasCustomerCommission = isCustomer && item.code === LINE_ITEM_CUSTOMER_COMMISSION;
+    const hasCustomerCommission =
+      isCustomer && item.code === LINE_ITEM_CUSTOMER_COMMISSION && item.promo !== NO_FEE;
     const hasProviderCommission = isProvider && item.code === LINE_ITEM_PROVIDER_COMMISSION;
     return (hasCustomerCommission || hasProviderCommission) && !item.reversal;
   });

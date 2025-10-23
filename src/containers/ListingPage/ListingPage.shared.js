@@ -206,7 +206,6 @@ export const handleSubmit = parameters => values => {
   } = parameters;
   const listingId = new UUID(params.id);
   const listing = getListing(listingId);
-
   const {
     bookingDates,
     bookingStartTime,
@@ -217,6 +216,7 @@ export const handleSubmit = parameters => values => {
     quantity: quantityRaw,
     seats: seatsRaw,
     deliveryMethod,
+    promo, // <-- add promo from values
     ...otherOrderData
   } = values;
 
@@ -243,6 +243,7 @@ export const handleSubmit = parameters => values => {
   const seatsMaybe = Number.isInteger(seats) ? { seats } : {};
   const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
 
+  const promoMaybe = promo ? { promo } : {};
   const initialValues = {
     listing,
     orderData: {
@@ -251,6 +252,7 @@ export const handleSubmit = parameters => values => {
       ...quantityMaybe,
       ...seatsMaybe,
       ...deliveryMethodMaybe,
+      ...promoMaybe,
       ...otherOrderData,
     },
     confirmPaymentError: null,

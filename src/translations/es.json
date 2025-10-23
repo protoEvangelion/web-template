@@ -744,6 +744,8 @@
   "ProductOrderForm.selectDeliveryMethodOption": "Elige el método de entrega",
   "ProductOrderForm.selectQuantityOption": "Seleccionar…",
   "ProductOrderForm.shippingOption": "Envío",
+  "ProductOrderForm.promoLabel": "Código promocional",
+  "ProductOrderForm.promoInvalid": "Código promocional inválido",
   "ProfilePage.desktopHeading": "Hola, soy {name}.",
   "ProfilePage.detailNo": "No",
   "ProfilePage.detailYes": "Sí",

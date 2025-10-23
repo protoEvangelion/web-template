@@ -3,7 +3,7 @@ import { Form as FinalForm, FormSpy } from 'react-final-form';
 
 import { FormattedMessage, useIntl } from '../../../util/reactIntl';
 import { propTypes } from '../../../util/types';
-import { numberAtLeast, required } from '../../../util/validators';
+import { numberAtLeast, required, isValidPromo, PROMOS } from '../../../util/validators';
 import { PURCHASE_PROCESS_NAME } from '../../../transactions/transaction';
 
 import {
@@ -141,11 +141,12 @@ const renderForm = formRenderProps => {
     setMounted(true);
 
     // Side-effect: fetch line-items after mounting if possible
-    const { quantity, deliveryMethod } = values;
+    const { quantity, deliveryMethod, promo } = values;
     if (quantity && !formRenderProps.hasMultipleDeliveryMethods) {
       handleFetchLineItems({
         quantity,
         deliveryMethod,
+        promo,
         displayDeliveryMethod,
         listingId,
         isOwnListing,
@@ -157,11 +158,13 @@ const renderForm = formRenderProps => {
 
   // If form values change, update line-items for the order breakdown
   const handleOnChange = formValues => {
-    const { quantity, deliveryMethod } = formValues.values;
+    const { quantity, deliveryMethod, promo } = formValues.values;
     if (mounted) {
       handleFetchLineItems({
         quantity,
         deliveryMethod,
+        promo,
+        displayDeliveryMethod,
         listingId,
         isOwnListing,
         fetchLineItemsInProgress,
@@ -185,6 +188,20 @@ const renderForm = formRenderProps => {
       formApi.blur('deliveryMethod');
       formApi.focus('deliveryMethod');
     } else {
+      // Prevent submit if promo validation fails
+      try {
+        const state = formApi.getState();
+        const promoError = state && state.errors && state.errors.promo;
+        if (promoError) {
+          e.preventDefault();
+          formApi.blur('promo');
+          formApi.focus('promo');
+          return;
+        }
+      } catch (err) {
+        // ignore errors when reading form state
+      }
+
       handleSubmit(e);
     }
   };
@@ -216,8 +233,17 @@ const renderForm = formRenderProps => {
     currentStock > MAX_QUANTITY_FOR_DROPDOWN ? MAX_QUANTITY_FOR_DROPDOWN : currentStock;
   const quantities = hasStock ? [...Array(selectableStock).keys()].map(i => i + 1) : [];
 
+
   const submitInProgress = fetchLineItemsInProgress;
-  const submitDisabled = !hasStock;
+  // Determine if promo is invalid
+  let promoInvalid = false;
+  try {
+    const state = formApi.getState();
+    promoInvalid = state && state.errors && !!state.errors.promo;
+  } catch (err) {
+    // ignore errors when reading form state
+  }
+  const submitDisabled = !hasStock || promoInvalid;
 
   return (
     <Form onSubmit={handleFormSubmit}>
@@ -249,7 +275,6 @@ const renderForm = formRenderProps => {
           ))}
         </FieldSelect>
       )}
-
       <DeliveryMethodMaybe
         displayDeliveryMethod={displayDeliveryMethod}
         hasMultipleDeliveryMethods={hasMultipleDeliveryMethods}
@@ -259,6 +284,18 @@ const renderForm = formRenderProps => {
         intl={intl}
       />
 
+      <div className={css.promoFieldWrapper}>
+        <label htmlFor={`${formId}.promo`} className={css.promoLabel}>
+          {intl.formatMessage({ id: 'ProductOrderForm.promoLabel' })}
+        </label>
+        <FieldTextInput
+          id={`${formId}.promo`}
+          className={css.quantityField}
+          name="promo"
+          validate={isValidPromo(intl.formatMessage({ id: 'ProductOrderForm.promoInvalid' }))}
+        />
+      </div>
+
       {showBreakdown ? (
         <div className={css.breakdownWrapper}>
           <H6 as="h3" className={css.bookingBreakdownTitle}>
@@ -267,16 +304,18 @@ const renderForm = formRenderProps => {
           <hr className={css.totalDivider} />
           <EstimatedCustomerBreakdownMaybe
             breakdownData={breakdownData}
-            lineItems={lineItems}
+            lineItems={lineItems?.map(x =>
+              x.code === 'line-item/customer-commission' && PROMOS.hasOwnProperty(values?.promo)
+                ? { ...x, promo: PROMOS[values.promo] }
+                : x
+            )}
             currency={price.currency}
             marketplaceName={marketplaceName}
             processName={PURCHASE_PROCESS_NAME}
           />
         </div>
       ) : null}
-
       <FetchLineItemsError error={fetchLineItemsError} />
-
       <div className={css.submitButton}>
         <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
           {hasStock ? (

@@ -744,6 +744,8 @@
   "ProductOrderForm.selectDeliveryMethodOption": "Wähle die Versandmethode aus",
   "ProductOrderForm.selectQuantityOption": "Auswählen…",
   "ProductOrderForm.shippingOption": "Versand",
+  "ProductOrderForm.promoLabel": "Gutscheincode",
+  "ProductOrderForm.promoInvalid": "Ungültiger Gutscheincode",
   "ProfilePage.desktopHeading": "Hallo, ich bin {name}.",
   "ProfilePage.detailNo": "Nein",
   "ProfilePage.detailYes": "Ja",

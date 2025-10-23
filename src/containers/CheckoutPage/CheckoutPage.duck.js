@@ -473,6 +473,7 @@ export const speculateTransaction = (
       .catch(handleError);
   } else if (isPrivilegedTransition) {
     // initiate privileged
+    // Called when user clicks "Buy Now" button before checkout page
     return initiatePrivileged({ isSpeculative: true, orderData, bodyParams, queryParams })
       .then(handleSuccess)
       .catch(handleError);

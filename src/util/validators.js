@@ -31,6 +31,27 @@ export const required = message => value => {
   return VALID;
 };
 
+export const NO_FEE = 'NO_FEE';
+export const PROMOS = {
+  aaa: NO_FEE,
+};
+
+// Final Form validator factory for promo codes.
+// Returns undefined (VALID) when the promo is empty or valid, otherwise an error message.
+export const isValidPromo = message => value => {
+  // Empty promo is considered valid (no promo applied)
+  if (typeof value === 'undefined' || value === null || value === '') {
+    return VALID;
+  }
+
+  // Only allow string values
+  if (typeof value !== 'string') {
+    return message;
+  }
+
+  return PROMOS.hasOwnProperty(value) ? VALID : message;
+};
+
 export const requiredStringNoTrim = message => value => {
   return typeof value === 'string' && value.length > 0 ? VALID : message;
 };

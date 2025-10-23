@@ -41,6 +41,7 @@ import MobileListingImage from './MobileListingImage';
 import MobileOrderBreakdown from './MobileOrderBreakdown';
 
 import css from './CheckoutPage.module.css';
+import { PROMOS } from '../../util/validators.js';
 
 // Stripe PaymentIntent statuses, where user actions are already completed
 // https://stripe.com/docs/payments/payment-intents/status
@@ -135,6 +136,8 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
 
   // These are the order parameters for the first payment-related transition
   // which is either initiate-transition or initiate-transition-after-enquiry
+  const promo = pageData.orderData?.promo;
+  const promoMaybe = promo ? { promo: PROMOS[promo] } : {};
   const orderParams = {
     listingId: pageData?.listing?.id,
     ...deliveryMethodMaybe,
@@ -142,12 +145,14 @@ const getOrderParams = (pageData, shippingDetails, optionalPaymentParams, config
     ...seatsMaybe,
     ...bookingDatesMaybe(pageData.orderData?.bookingDates),
     ...priceVariantNameMaybe,
+    ...promoMaybe,
     ...protectedDataMaybe,
     ...optionalPaymentParams,
   };
   return orderParams;
 };
 
+// INIT payment intent
 const fetchSpeculatedTransactionIfNeeded = (orderParams, pageData, fetchSpeculatedTransaction) => {
   const tx = pageData ? pageData.transaction : null;
   const pageDataListing = pageData.listing;
@@ -453,6 +458,7 @@ export const CheckoutPageWithPayment = props => {
         className={css.orderBreakdown}
         userRole="customer"
         transaction={tx}
+        promo={pageData.orderData.promo}
         {...txBookingMaybe}
         currency={config.currency}
         marketplaceName={config.marketplaceName}

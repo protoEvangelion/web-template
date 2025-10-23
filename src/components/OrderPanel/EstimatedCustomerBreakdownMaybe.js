@@ -37,12 +37,13 @@ import { getProcess, TX_TRANSITION_ACTOR_CUSTOMER } from '../../transactions/tra
 import { OrderBreakdown } from '../../components';
 
 import css from './OrderPanel.module.css';
+import { NO_FEE } from '../../util/validators';
 
 const { Money, UUID } = sdkTypes;
 
 const estimatedTotalPrice = (lineItems, marketplaceCurrency) => {
   const numericTotalPrice = lineItems.reduce((sum, lineItem) => {
-    const numericPrice = convertMoneyToNumber(lineItem.lineTotal);
+    const numericPrice = lineItem.promo === NO_FEE ? 0 : convertMoneyToNumber(lineItem.lineTotal);
     return new Decimal(numericPrice).add(sum);
   }, new Decimal(0));
 
@@ -91,7 +92,6 @@ const estimatedCustomerTransaction = (
   const providerLineItems = lineItems.filter(item => item.includeFor.includes('provider'));
   const payinTotal = estimatedTotalPrice(customerLineItems, marketplaceCurrency);
   const payoutTotal = estimatedTotalPrice(providerLineItems, marketplaceCurrency);
-
   const bookingMaybe =
     bookingStart && bookingEnd
       ? { booking: estimatedBooking(bookingStart, bookingEnd, lineItemUnitType, timeZone) }

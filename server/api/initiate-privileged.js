@@ -70,6 +70,12 @@ module.exports = (req, res) => {
         providerCommission,
         customerCommission
       );
+
+      // Remove commission line item if promo is NO_FEE
+      if (bodyParams?.params?.promo === 'NO_FEE' && Array.isArray(lineItems)) {
+        lineItems = lineItems.filter(li => li.code !== 'line-item/customer-commission');
+      }
+
       metadataMaybe = getMetadata(orderData, transitionName);
 
       return getTrustedSdk(req);

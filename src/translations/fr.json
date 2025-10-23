@@ -744,6 +744,8 @@
   "ProductOrderForm.selectDeliveryMethodOption": "Sélectionnez le mode de livraison",
   "ProductOrderForm.selectQuantityOption": "Sélectionnez…",
   "ProductOrderForm.shippingOption": "Transport",
+  "ProductOrderForm.promoLabel": "Code promo",
+  "ProductOrderForm.promoInvalid": "Code promo invalide",
   "ProfilePage.desktopHeading": "Bonjour, je suis {name}.",
   "ProfilePage.detailNo": "Non",
   "ProfilePage.detailYes": "Oui",

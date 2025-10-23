@@ -23,6 +23,12 @@
   justify-content: space-between;
 }
 
+.noFee {
+  text-decoration: line-through;
+  color: var(--colorGrey300);
+  font-weight: var(--fontWeightBold);
+}
+
 .bookingPeriod {
   flex: 1 1;
   display: flex;

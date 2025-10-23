@@ -796,6 +796,8 @@
   "ProductOrderForm.selectDeliveryMethodOption": "Select delivery method",
   "ProductOrderForm.selectQuantityOption": "Select…",
   "ProductOrderForm.shippingOption": "Shipping",
+  "ProductOrderForm.promoLabel": "Promo code",
+  "ProductOrderForm.promoInvalid": "Invalid promo code",
   "ProfilePage.desktopHeading": "Hello, I'm {name}.",
   "ProfilePage.detailNo": "No",
   "ProfilePage.detailYes": "Yes",

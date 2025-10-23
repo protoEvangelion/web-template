@@ -5,6 +5,7 @@ import { types as sdkTypes } from '../../util/sdkLoader';
 import { LINE_ITEM_CUSTOMER_COMMISSION, propTypes } from '../../util/types';
 
 import css from './OrderBreakdown.module.css';
+import { NO_FEE } from '../../util/validators';
 
 const { Money } = sdkTypes;
 
@@ -50,7 +51,11 @@ const LineItemCustomerCommissionMaybe = props => {
     const formattedCommission = commission ? formatMoney(intl, commission) : null;
 
     commissionItem = (
-      <div className={css.lineItem}>
+      <div
+        className={`${css.lineItem} ${
+          customerCommissionLineItem.promo === NO_FEE ? css.noFee : ''
+        }`}
+      >
         <span className={css.itemLabel}>
           <FormattedMessage
             id="OrderBreakdown.commission"
