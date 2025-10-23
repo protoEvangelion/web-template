@@ -33,7 +33,7 @@ export const required = message => value => {
 
 export const NO_FEE = 'NO_FEE';
 export const PROMOS = {
-  aaa: NO_FEE,
+  HelloLocal: NO_FEE,
 };
 
 // Final Form validator factory for promo codes.

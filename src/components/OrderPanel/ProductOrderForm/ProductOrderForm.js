@@ -233,7 +233,6 @@ const renderForm = formRenderProps => {
     currentStock > MAX_QUANTITY_FOR_DROPDOWN ? MAX_QUANTITY_FOR_DROPDOWN : currentStock;
   const quantities = hasStock ? [...Array(selectableStock).keys()].map(i => i + 1) : [];
 
-
   const submitInProgress = fetchLineItemsInProgress;
   // Determine if promo is invalid
   let promoInvalid = false;
