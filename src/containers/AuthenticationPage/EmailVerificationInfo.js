@@ -109,7 +109,9 @@ const EmailVerificationInfo = props => {
             corner and follow the steps!
           </p>
 
-          <img src={addListingImage} style={{ height: '100%', width: '100%' }}></img>
+          <div>
+            <img src={addListingImage} style={{ height: '100%', width: '100%' }}></img>
+          </div>
         </div>
       )}
 
