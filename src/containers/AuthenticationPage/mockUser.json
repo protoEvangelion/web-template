@@ -1,0 +1,58 @@
+{
+  "id": {
+    "_sdkType": "UUID",
+    "uuid": "69050195-dde6-4f44-ae0f-53017876cd8f"
+  },
+  "type": "currentUser",
+  "attributes": {
+    "deleted": false,
+    "banned": false,
+    "email": "aasdfasdfasdfasdfqwaerxc@pm.me",
+    "permissions": {
+      "read": "permission/allow",
+      "initiateTransactions": "permission/allow",
+      "postListings": "permission/allow"
+    },
+    "stripeConnected": false,
+    "stripePayoutsEnabled": false,
+    "createdAt": "2025-10-31T18:36:05.515Z",
+    "state": "active",
+    "stripeChargesEnabled": false,
+    "identityProviders": [],
+    "pendingEmail": null,
+    "emailVerified": false,
+    "profile": {
+      "displayName": "Ryan Garant",
+      "firstName": "Ryan",
+      "privateData": {},
+      "protectedData": {
+        "phoneNumber": "6619649400",
+        "terms": ["tos-and-privacy"]
+      },
+      "bio": null,
+      "abbreviatedName": "RG",
+      "lastName": "Garant",
+      "publicData": {
+        "buy_sell": "sell", // "both"
+        "text": "yes",
+        "userType": "user",
+        "zipcode": "76049"
+      },
+      "metadata": {}
+    }
+  },
+  "profileImage": null,
+  "stripeAccount": null,
+  "effectivePermissionSet": {
+    "id": {
+      "_sdkType": "UUID",
+      "uuid": "69050196-c3aa-4589-8332-1211d6defb3f"
+    },
+    "type": "permissionSet",
+    "attributes": {
+      "postListings": "permission/allow",
+      "read": "permission/allow",
+      "initiateTransactions": "permission/allow"
+    }
+  }
+}
